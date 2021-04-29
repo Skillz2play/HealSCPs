@@ -10,6 +10,7 @@ namespace HealSCPs
 {
     public class Plugin : Plugin<Config>
     {
+        
         private static readonly Lazy<Plugin> LazyInstance = new Lazy<Plugin>(() => new Plugin());
         internal static readonly List<int> BlacklistedIds = new List<int>();
 
