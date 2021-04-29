@@ -32,15 +32,13 @@ namespace HealSCPs
 
         public override void OnEnabled()
         {
-            
 
             base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
-            
-            
+             
             base.OnDisabled();
         }
 
