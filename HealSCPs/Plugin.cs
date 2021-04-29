@@ -33,7 +33,7 @@ namespace HealSCPs
         public override void OnEnabled()
         {
             
-            
+
             base.OnEnabled();
         }
 
@@ -46,7 +46,7 @@ namespace HealSCPs
 
         public void RegisterEvents()
         {
-
+            
         }
 
         public void UnregisterEvents()

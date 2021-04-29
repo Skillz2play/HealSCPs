@@ -33,6 +33,7 @@ namespace HealSCPs
                 return false;
             }
 
+
             Inventory.SyncItemInfo item = player.CurrentItem;
             if (item == default)
             {

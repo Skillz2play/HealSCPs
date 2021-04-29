@@ -61,11 +61,10 @@
   <ItemGroup>
     <Compile Include="Commands\heal.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="Handlers\HealEvent.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Handlers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
