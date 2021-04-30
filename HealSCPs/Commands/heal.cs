@@ -12,17 +12,19 @@ namespace HealSCPs
     [CommandHandler(typeof(ClientCommandHandler))]
     class heal : ICommand
     {
-        // Add player dectection to make sure the player is healing the scp and not the air
-        // Also add the health receive so it actually heals the scps instead of just printing a message
-        // Not sure if that needs an event handler or not
-        // We'll see
-        // Detect if a player is an scp through raycast or whatever or if they are in a radius near the SCP, execute the command
         
+        // Add the health receive so it actually heals the scps instead of just printing a message
+        // Should also probably clean up the code a bit so it looks nicer
+        // It's a wee bit messy
+
         public string Command { get; } = "heal";
 
         public string[] Aliases { get; } = { };
 
         public string Description { get; } = "Heal any scp in front of you";
+
+        public RoleType SCP;
+        public RoleType Human;
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -33,6 +35,103 @@ namespace HealSCPs
                 return false;
             }
 
+            if (player.Role != RoleType.Scp049)
+            {
+                response = "You cant run this command";
+                return false;
+            }
+
+            if (player.Role != RoleType.Scp0492)
+            {
+                response = "You cant run this command";
+                return false;
+            }
+
+            if (player.Role != RoleType.Scp079)
+            {
+                response = "You cant run this command";
+                return false;
+            }
+
+            if (player.Role != RoleType.Scp096)
+            {
+                response = "You cant run this command";
+                return false;
+            }
+
+            if (player.Role != RoleType.Scp106)
+            {
+                response = "You cant run this command";
+                return false;
+            }
+
+            if (player.Role != RoleType.Scp173)
+            {
+                response = "You cant run this command";
+                return false;
+            }
+
+            if (player.Role != RoleType.Scp93953)
+            {
+                response = "You cant run this command";
+                return false;
+            }
+
+            if (player.Role != RoleType.Scp93989)
+            {
+                response = "You cant run this command";
+                return false;
+            }
+
+            if (player.Role == RoleType.ChaosInsurgency)
+            {
+                response = "You can run this command";
+                return true;
+            }
+
+            if (player.Role == RoleType.ClassD)
+            {
+                response = "You can run this command";
+                return true;
+            }
+
+            if (player.Role == RoleType.Scientist)
+            {
+                response = "You can run this command";
+                return true;
+            }
+
+            if (player.Role == RoleType.FacilityGuard)
+            {
+                response = "You can run this command";
+                return true;
+            }
+            
+            if (player.Role == RoleType.NtfCadet)
+            {
+                response = "You can run this command";
+                return true;
+            }
+
+            if (player.Role == RoleType.NtfCommander)
+            {
+                response = "You can run this command";
+                return true;
+            }
+
+            if (player.Role == RoleType.NtfLieutenant)
+            {
+                response = "You can run this command";
+                return true;
+            }
+
+            if (player.Role == RoleType.NtfScientist)
+            {
+                response = "You can run this command";
+                return true;
+            }
+
+            // This aint pretty but it gets the job done
 
             Inventory.SyncItemInfo item = player.CurrentItem;
             if (item == default)
@@ -70,7 +169,6 @@ namespace HealSCPs
                 response = "You healed the SCP with SCP 207";
                 return true;
             }
-
 
             response = "";
             return true;
