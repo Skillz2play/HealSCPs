@@ -1,5 +1,3 @@
-### THIS PLUGIN IS STILL IN DEVELOPMENT AND DOESN'T ACTUALLY HEAL SCPS YET, HENCE THE LACK OF A DLL RELEASE. FIRST RELEASE WILL BE OUT SOON.
-
 # HealSCPs
 
 HealSCPs is a simple plugin which lets you heal any SCP with a healing item. (Except 079)
