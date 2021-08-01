@@ -19,12 +19,9 @@ namespace HealSCPs
         public override PluginPriority Priority { get; } = PluginPriority.Medium;
 
         public override string Name => "HealSCPs";
-
         public override string Author => "Skillz2play";
-
         public override Version Version => new Version(1, 0, 0);
-
-        public override Version RequiredExiledVersion => new Version(2, 10, 0);
+        public override Version RequiredExiledVersion => new Version(2, 11, 0);
 
         private Plugin()
         {

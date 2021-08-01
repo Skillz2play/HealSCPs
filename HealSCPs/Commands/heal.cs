@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RemoteAdmin;
 using Exiled.API.Features;
+using UnityEngine;
 
 namespace HealSCPs
 {
@@ -16,6 +17,8 @@ namespace HealSCPs
         // Add the health receive so it actually heals the scps instead of just printing a message
         // Should also probably clean up the code a bit so it looks nicer
         // It's a wee bit messy
+
+        // Compress all the if statements into 2 if else statements, one for class detection and one for item detection
 
         public string Command { get; } = "heal";
 
@@ -35,143 +38,67 @@ namespace HealSCPs
                 return false;
             }
 
-            if (player.Role != RoleType.Scp049)
+            switch (player.Team)
             {
-                response = "You cant run this command";
-                return false;
-            }
+                case Team.CDP:
+                case Team.CHI:
+                case Team.MTF:
+                case Team.RSC:
+                    
+                    // we are humans
+                    switch (player.CurrentItem.id)
+                    {
+                        case ItemType.Adrenaline:
+                        case ItemType.Painkillers:
+                        case ItemType.Medkit:
+                        case ItemType.SCP500:
+                        case ItemType.SCP207:
+                            // we are holding a medical item
+                            var cam = player.CameraTransform;
+                            bool didHit = Physics.Raycast(cam.position, cam.forward, out RaycastHit hit, Plugin.Instance.Config.Distance);
+                            if (didHit)
+                            {
+                                Player hitPlayer = Player.Get(hit.transform.GetComponentInParent<ReferenceHub>());
+                                if (hitPlayer != null && hitPlayer.Team == Team.SCP)
+                                {
+                                    float amount = 0f;
+                                    switch (player.CurrentItem.id)
+                                    {
+                                        case ItemType.Adrenaline:
+                                            amount = Plugin.Instance.Config.AdrenalineHealthRecieve;
+                                            break;
+                                        case ItemType.Medkit:
+                                            amount = Plugin.Instance.Config.MedkitHealthRecieve;
+                                            break;
+                                        case ItemType.Painkillers:
+                                            amount = Plugin.Instance.Config.PainkillersHealthRecieve;
+                                            break;
+                                        case ItemType.SCP207:
+                                            amount = Plugin.Instance.Config.SCP207HealthRecieve;
+                                            break;
+                                        case ItemType.SCP500:
+                                            amount = Plugin.Instance.Config.SCP500HealthRecieve;
+                                            break;
+                                    }
+                                    hitPlayer.Health = Mathf.Clamp(hitPlayer.Health + amount, 0f, hitPlayer.MaxHealth);
+                                    player.RemoveItem();
+                                    response = $"Healed Player {hitPlayer.Nickname}";
+                                    return true;
+                                }
+                            }
+                            response = "You must be looking at an SCP in order to heal them.";
+                            return true;
+                        default:
+                            response = "You can't heal SCPs with that item.";
+                            return true;
+                    }
 
-            if (player.Role != RoleType.Scp0492)
-            {
-                response = "You cant run this command";
-                return false;
-            }
+                default:
+                    response = "You can't run this command";
+                    return true;
 
-            if (player.Role != RoleType.Scp079)
-            {
-                response = "You cant run this command";
-                return false;
-            }
 
-            if (player.Role != RoleType.Scp096)
-            {
-                response = "You cant run this command";
-                return false;
             }
-
-            if (player.Role != RoleType.Scp106)
-            {
-                response = "You cant run this command";
-                return false;
-            }
-
-            if (player.Role != RoleType.Scp173)
-            {
-                response = "You cant run this command";
-                return false;
-            }
-
-            if (player.Role != RoleType.Scp93953)
-            {
-                response = "You cant run this command";
-                return false;
-            }
-
-            if (player.Role != RoleType.Scp93989)
-            {
-                response = "You cant run this command";
-                return false;
-            }
-
-            if (player.Role == RoleType.ChaosInsurgency)
-            {
-                response = "You can run this command";
-                return true;
-            }
-
-            if (player.Role == RoleType.ClassD)
-            {
-                response = "You can run this command";
-                return true;
-            }
-
-            if (player.Role == RoleType.Scientist)
-            {
-                response = "You can run this command";
-                return true;
-            }
-
-            if (player.Role == RoleType.FacilityGuard)
-            {
-                response = "You can run this command";
-                return true;
-            }
-            
-            if (player.Role == RoleType.NtfCadet)
-            {
-                response = "You can run this command";
-                return true;
-            }
-
-            if (player.Role == RoleType.NtfCommander)
-            {
-                response = "You can run this command";
-                return true;
-            }
-
-            if (player.Role == RoleType.NtfLieutenant)
-            {
-                response = "You can run this command";
-                return true;
-            }
-
-            if (player.Role == RoleType.NtfScientist)
-            {
-                response = "You can run this command";
-                return true;
-            }
-
-            // This aint pretty but it gets the job done
-
-            Inventory.SyncItemInfo item = player.CurrentItem;
-            if (item == default)
-            {
-                response = "You can't heal SCPs with that item.";
-                return false;
-            }
-
-            if (item.id == ItemType.Medkit)
-            {
-                response = "You healed the SCP with a Medkit";
-                return true;
-            }
-            
-            if (item.id == ItemType.Painkillers)
-            {
-                response = "You healed the SCP with a Painkillers";
-                return true;
-            }
-
-            if (item.id == ItemType.SCP500)
-            {
-                response = "You healed the SCP with SCP 500";
-                return true;
-            }
-
-            if (item.id == ItemType.Adrenaline)
-            {
-                response = "You healed the SCP with Adrenaline";
-                return true;
-            }
-
-            if (item.id == ItemType.SCP207)
-            {
-                response = "You healed the SCP with SCP 207";
-                return true;
-            }
-
-            response = "";
-            return true;
         }
     }
 }
