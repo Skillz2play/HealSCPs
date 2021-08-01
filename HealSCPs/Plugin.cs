@@ -20,7 +20,7 @@ namespace HealSCPs
 
         public override string Name => "HealSCPs";
         public override string Author => "Skillz2play";
-        public override Version Version => new Version(1, 0, 0);
+        public override Version Version => new Version(1, 0, 1);
         public override Version RequiredExiledVersion => new Version(2, 11, 0);
 
         private Plugin()
@@ -37,16 +37,6 @@ namespace HealSCPs
         {
              
             base.OnDisabled();
-        }
-
-        public void RegisterEvents()
-        {
-            
-        }
-
-        public void UnregisterEvents()
-        {
-            
         }
     }
 }
