@@ -8,6 +8,10 @@ Go to the latest [Release](https://github.com/Skillz2play/HealSCPs/releases) and
 
 Next go to your Plugins folder and drop the dll where you have installed all your other EXILED Plugins.
 
+## How to use
+
+Use the command .heal near an scp with a medical item and it will heal them with the amount set in the config.
+
 ## Config
 
 ```cs
