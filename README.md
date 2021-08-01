@@ -18,9 +18,5 @@ SCP500HealthRecieve: 100
 AdrenalineHealthRecieve: 35
 PainkillersHealthRecieve: 10
 SCP207HealthRecieve: 25
-
-Recieve207Effects: true
-Recieve500Effects: true
-ReceivePainkillerEffects: true
-RecieveAdrenalineEffects: true
+Distance: 5
 ```
