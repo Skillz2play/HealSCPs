@@ -13,12 +13,6 @@ namespace HealSCPs
     [CommandHandler(typeof(ClientCommandHandler))]
     class heal : ICommand
     {
-        
-        // Add the health receive so it actually heals the scps instead of just printing a message
-        // Should also probably clean up the code a bit so it looks nicer
-        // It's a wee bit messy
-
-        // Compress all the if statements into 2 if else statements, one for class detection and one for item detection
 
         public string Command { get; } = "heal";
 
