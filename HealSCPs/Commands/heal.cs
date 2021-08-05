@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using RemoteAdmin;
 using Exiled.API.Features;
 using UnityEngine;
+using Exiled.API.Extensions;
 
 namespace HealSCPs
 {
@@ -16,41 +17,23 @@ namespace HealSCPs
 
         public string Command { get; } = "heal";
 
-        public string[] Aliases { get; } = { };
+        public string[] Aliases { get; } = Array.Empty<string>();
 
         public string Description { get; } = "Heal any scp in front of you";
-
-        public RoleType SCP;
-        public RoleType Human;
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get((sender as PlayerCommandSender)?.ReferenceHub);
-            if (player == null || Plugin.BlacklistedIds.Contains(player.Id) || player.SessionVariables.ContainsKey("IsGhostSpectator"))
+            
+            if (player.IsHuman)
             {
-                response = string.Empty;
-                return false;
-            }
+                // we are humans
+                if (player.CurrentItem.id.IsMedical())
+                {
 
-            switch (player.Team)
-            {
-                case Team.CDP:
-                case Team.CHI:
-                case Team.MTF:
-                case Team.RSC:
-                    
-                    // we are humans
-                    switch (player.CurrentItem.id)
-                    {
-                        case ItemType.Adrenaline:
-                        case ItemType.Painkillers:
-                        case ItemType.Medkit:
-                        case ItemType.SCP500:
-                        case ItemType.SCP207:
-                            // we are holding a medical item
-                            var cam = player.CameraTransform;
-                            bool didHit = Physics.Raycast(cam.position, cam.forward, out RaycastHit hit, Plugin.Instance.Config.Distance);
-                            if (didHit)
+                    // we are holding a medical item
+                    var cam = player.CameraTransform;
+                            if (Physics.Raycast(cam.position, cam.forward, out RaycastHit hit, Plugin.Instance.Config.Distance, LayerMask.GetMask("Default","Player","Hitbox")))
                             {
                                 Player hitPlayer = Player.Get(hit.transform.GetComponentInParent<ReferenceHub>());
                                 if (hitPlayer != null && hitPlayer.Team == Team.SCP)
@@ -74,24 +57,33 @@ namespace HealSCPs
                                             amount = Plugin.Instance.Config.SCP500HealthRecieve;
                                             break;
                                     }
-                                    hitPlayer.Health = Mathf.Clamp(hitPlayer.Health + amount, 0f, hitPlayer.MaxHealth);
-                                    player.RemoveItem();
+                                        hitPlayer.ReferenceHub.playerStats.HealHPAmount(amount);
+                                        player.RemoveItem();
                                     response = $"Healed Player {hitPlayer.Nickname}";
-                                    return true;
-                                }
-                            }
+                            return true;
+                        }
+                        else
+                        {
                             response = "You must be looking at an SCP in order to heal them.";
                             return true;
-                        default:
-                            response = "You can't heal SCPs with that item.";
-                            return true;
+                        }
                     }
-
-                default:
-                    response = "You can't run this command";
+                    else
+                    {
+                        response = "You must be looking at an SCP in order to heal them.";
+                        return true;
+                    }
+                }
+                else
+                {
+                    response = "You can't heal SCPs with that item!";
                     return true;
-
-
+                }
+            }
+            else
+            {
+                response = "You can't run this command!";
+                return true;
             }
         }
     }
