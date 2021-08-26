@@ -1,26 +1,35 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Features;
+﻿using Exiled.API.Features;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealSCPs
 {
     public class Plugin : Plugin<Config>
     {
+		public override void OnEnabled()
+		{
+			Plugin.singleton = this;
+			base.OnEnabled();
+		}
 
-        private static readonly Plugin Singleton = new Plugin();
-        public static Plugin Instance => Singleton;
+		public override void OnDisabled()
+		{
+			Plugin.singleton = null;
+			base.OnDisabled();
+		}
 
-        public override string Name => "HealSCPs";
-        public override string Author => "Skillz2play";
-        public override Version Version => new Version(1, 1, 0);
-        public override Version RequiredExiledVersion => new Version(2, 11, 0);
+		public static Plugin Instance
+		{
+			get
+			{
+				return Plugin.singleton;
+			}
+		}
 
-        private Plugin()
-        {
-        }
-    }
+		public override string Name => "HealSCPs";
+		public override string Author => "Skillz2play";
+		public override Version Version => new Version(1, 3, 0);
+		public override Version RequiredExiledVersion => new Version(3, 0, 0);
+
+		private static Plugin singleton;
+	}
 }
