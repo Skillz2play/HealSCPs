@@ -18,9 +18,9 @@ namespace HealSCPs
 	public static Plugin Instance
 	{
             get
-		{
+            {
                 return Plugin.singleton;
-		}
+            }
 	}
 	public override string Name => "HealSCPs";
 	public override string Author => "Skillz2play";
