@@ -10,21 +10,18 @@ namespace HealSCPs
             Plugin.singleton = this;
             base.OnEnabled();
 	}
-
 	public override void OnDisabled()
 	{
             Plugin.singleton = null;
             base.OnDisabled();
 	}
-
 	public static Plugin Instance
 	{
-		get
+            get
 		{
                 return Plugin.singleton;
 		}
 	}
-
 	public override string Name => "HealSCPs";
 	public override string Author => "Skillz2play";
 	public override Version Version => new Version(1, 4, 1);
