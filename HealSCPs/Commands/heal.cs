@@ -60,7 +60,7 @@ namespace HealSCPs
                     amount = Plugin.Instance.Config.SCP500HealthRecieve;
                     break;
             }
-            hitPlayer.ReferenceHub.playerStats.HealHPAmount(amount);
+            hitPlayer.Heal(amount);
             player.RemoveHeldItem();
             response = $"Healed Player {hitPlayer.Nickname}";
             return true;
