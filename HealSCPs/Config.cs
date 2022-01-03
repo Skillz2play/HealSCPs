@@ -26,7 +26,7 @@ namespace HealSCPs
         [Description("How far do the SCPs have to be for the health to be applied?")]
         public float Distance { get; set; } = 5f;
 
-        [Description("What SCPs are allowed to be healed? NOT USED CURRENTLY")]
+        [Description("What SCPs are allowed to be healed?")]
         public List<RoleType> AllowedScps { get; private set; } = new List<RoleType>() { RoleType.Scp049, RoleType.Scp0492, RoleType.Scp079, RoleType.Scp096, RoleType.Scp106, RoleType.Scp173, RoleType.Scp93953, RoleType.Scp93989 };
     }
 }

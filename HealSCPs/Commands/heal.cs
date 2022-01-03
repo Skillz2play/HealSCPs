@@ -41,6 +41,12 @@ namespace HealSCPs
                 response = "You must be looking at an SCP in order to heal them.";
                 return false;
             }
+            if (!Plugin.Instance.Config.AllowedScps.Contains(hitPlayer.Role))            
+            {
+                response = "This SCP is not allowed to be healed!";
+                return false;
+            }
+
             float amount = 0f;
             switch (player.CurrentItem.Type)
             {
