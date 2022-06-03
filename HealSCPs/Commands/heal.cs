@@ -36,7 +36,7 @@ namespace HealSCPs
                 return false;
             }
             Player hitPlayer = Player.Get(hit.transform.GetComponentInParent<ReferenceHub>());
-            if (hitPlayer == null || hitPlayer.Team != Team.SCP)
+            if (hitPlayer == null || hitPlayer.Role.Team != Team.SCP)
             {
                 response = "You must be looking at an SCP in order to heal them.";
                 return false;
