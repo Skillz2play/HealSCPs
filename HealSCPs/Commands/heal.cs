@@ -47,25 +47,16 @@ namespace HealSCPs
                 return false;
             }
 
-            float amount = 0f;
-            switch (player.CurrentItem.Type)
+            float amount = player.CurrentItem.Type switch
             {
-                case ItemType.Adrenaline:
-                    amount = Plugin.Instance.Config.AdrenalineHealthRecieve;
-                    break;
-                case ItemType.Medkit:
-                    amount = Plugin.Instance.Config.MedkitHealthRecieve;
-                    break;
-                case ItemType.Painkillers:
-                    amount = Plugin.Instance.Config.PainkillersHealthRecieve;
-                    break;
-                case ItemType.SCP207:
-                    amount = Plugin.Instance.Config.SCP207HealthRecieve;
-                    break;
-                case ItemType.SCP500:
-                    amount = Plugin.Instance.Config.SCP500HealthRecieve;
-                    break;
-            }
+                ItemType.Adrenaline => Plugin.Instance.Config.AdrenalineHealthRecieve,
+                ItemType.Medkit => Plugin.Instance.Config.MedkitHealthRecieve,
+                ItemType.Painkillers => Plugin.Instance.Config.PainkillersHealthRecieve,
+                ItemType.SCP207 => Plugin.Instance.Config.SCP207HealthRecieve,
+                ItemType.SCP500 => Plugin.Instance.Config.SCP500HealthRecieve,
+                _ => 0
+            };
+            hitPlayer.ShowHint($"You have been healed by {player.Nickname} for {amount}HP");
             hitPlayer.Heal(amount);
             player.RemoveHeldItem();
             response = $"Healed Player {hitPlayer.Nickname}";
