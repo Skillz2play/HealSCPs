@@ -15,12 +15,27 @@ Use the command .heal near an scp with a medical item and it will heal them with
 ## Config
 
 ```cs
-isEnabled: true
-
-MedkitHealthRecieve: 75
-SCP500HealthRecieve: 100
-AdrenalineHealthRecieve: 35
-PainkillersHealthRecieve: 10
-SCP207HealthRecieve: 25
-Distance: 5
+heal_s_c_ps:
+  is_enabled: true
+  # How much health the SCP gets from a Medkit.
+  medkit_health_recieve: 75
+  # How much health the SCP gets from SCP 500.
+  s_c_p500_health_recieve: 100
+  # How much health the SCP gets from Adrenaline.
+  adrenaline_health_recieve: 35
+  # How much health the SCP gets from Painkillers.
+  painkillers_health_recieve: 10
+  # How much health the SCP gets from SCP 207.
+  s_c_p207_health_recieve: 25
+  # How far do the SCPs have to be for the health to be applied?
+  distance: 5
+  # What SCPs are allowed to be healed?
+  allowed_scps:
+  - Scp049
+  - Scp0492
+  - Scp079
+  - Scp096
+  - Scp106
+  - Scp173
+  - Scp93953
 ```
