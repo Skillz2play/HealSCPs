@@ -3,6 +3,7 @@ using System;
 using Exiled.API.Features;
 using UnityEngine;
 using Exiled.API.Extensions;
+using PlayerRoles;
 
 namespace HealSCPs
 {
@@ -36,7 +37,7 @@ namespace HealSCPs
                 return false;
             }
             Player hitPlayer = Player.Get(hit.transform.GetComponentInParent<ReferenceHub>());
-            if (hitPlayer == null || hitPlayer.Role.Team != Team.SCP)
+            if (hitPlayer == null || hitPlayer.Role.Team != Team.SCPs)
             {
                 response = "You must be looking at an SCP in order to heal them.";
                 return false;

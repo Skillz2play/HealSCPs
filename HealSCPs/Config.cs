@@ -1,4 +1,5 @@
 ﻿using Exiled.API.Interfaces;
+using PlayerRoles;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -27,6 +28,8 @@ namespace HealSCPs
         public float Distance { get; set; } = 5f;
 
         [Description("What SCPs are allowed to be healed?")]
-        public List<RoleType> AllowedScps { get; private set; } = new List<RoleType>() { RoleType.Scp049, RoleType.Scp0492, RoleType.Scp079, RoleType.Scp096, RoleType.Scp106, RoleType.Scp173, RoleType.Scp93953, RoleType.Scp93989 };
+        public List<RoleTypeId> AllowedScps { get; private set; } = new List<RoleTypeId>() { RoleTypeId.Scp049, RoleTypeId.Scp0492, RoleTypeId.Scp079, RoleTypeId.Scp096, RoleTypeId.Scp106, RoleTypeId.Scp173, RoleTypeId.Scp939 };
+        
+        bool IConfig.Debug { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     }
 }
