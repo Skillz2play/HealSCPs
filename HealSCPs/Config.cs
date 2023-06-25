@@ -1,12 +1,12 @@
-﻿using Exiled.API.Interfaces;
-using PlayerRoles;
+﻿using PlayerRoles;
 using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace HealSCPs
 {
-    public sealed class Config : IConfig
+    public sealed class Config
     {
+        [Description("Enable the plugin?")]
         public bool IsEnabled { get; set; } = true;
 
         [Description("How much health the SCP gets from a Medkit.")]
@@ -29,7 +29,5 @@ namespace HealSCPs
 
         [Description("What SCPs are allowed to be healed?")]
         public List<RoleTypeId> AllowedScps { get; private set; } = new List<RoleTypeId>() { RoleTypeId.Scp049, RoleTypeId.Scp0492, RoleTypeId.Scp079, RoleTypeId.Scp096, RoleTypeId.Scp106, RoleTypeId.Scp173, RoleTypeId.Scp939 };
-        
-        bool IConfig.Debug { get; set; }
     }
 }

@@ -1,27 +1,38 @@
-﻿using Exiled.API.Features;
+﻿using PluginAPI.Core;
+using PlayerRoles.Ragdolls;
+using PluginAPI.Core.Attributes;
 using System;
 
 namespace HealSCPs
 {
-    public class Plugin : Plugin<Config>
+    public class Plugin
     {
-		public override void OnEnabled()
-		{
-				Plugin.singleton = this;
-				base.OnEnabled();
-		}
-		public override void OnDisabled()
-		{
-				Plugin.singleton = null;
-				base.OnDisabled();
-		}
-		public static Plugin Instance => singleton;
+        public const string PluginName = "HealSCPs";
+        public const string PluginVersion = "1.0.0";
+        public const string PluginDesc = "A plugin to make \'better\' balancing changes to SL.";
+		public const string Author = "Skillz2play (Ported to NWAPI by btelnyy)";
+        public static Plugin Instance => instance;
+        private static Plugin instance;
+        [PluginConfig(PluginName + ".yml")]
+        public Config Config = new Config();
 
-		public override string Name => "HealSCPs";
-		public override string Author => "Skillz2play";
-		public override Version Version => new Version(1, 8, 3);
-		public override Version RequiredExiledVersion => new Version(7, 0, 0);
+        [PluginEntryPoint(PluginName, PluginVersion, PluginDesc, Author)]
+        public void LoadPlugin()
+        {
+            if (!Config.IsEnabled)
+            {
+                Log.Debug("Plugin is disabled!");
+                return;
+            }
+            instance = this;
+            Log.Info("Registering events...");
+            PluginAPI.Events.EventManager.RegisterAllEvents(this);
+        }
 
-		private static Plugin singleton;
-	}
+        [PluginUnload()]
+        public void Unload()
+        {
+            Config = null;
+        }
+    }
 }
