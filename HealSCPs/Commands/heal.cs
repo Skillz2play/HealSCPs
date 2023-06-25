@@ -23,13 +23,12 @@ namespace HealSCPs
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get((CommandSender)sender);
-
             if (!player.IsHuman)
             {
                 response = "You can't run this command!";
                 return false;
             }
-            if (player.CurrentItem.Category != ItemCategory.Medical)
+            if (player.CurrentItem == null || player.CurrentItem.Category != ItemCategory.Medical)
             {
                 response = "You can't heal SCPs with that item!";
                 return false;
@@ -70,6 +69,7 @@ namespace HealSCPs
                 if (player.ReferenceHub.inventory.UserInventory.Items[item].ItemTypeId == player.CurrentItem.ItemTypeId)
                 {
                     player.ReferenceHub.inventory.ServerRemoveItem(item, player.ReferenceHub.inventory.UserInventory.Items[item].PickupDropModel);
+                    break;
                 }
             }
             response = $"Healed Player {hitPlayer.Nickname}";
