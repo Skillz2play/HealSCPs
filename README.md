@@ -12,21 +12,11 @@ Next go to your Plugins folder and drop the dll where you have installed all you
 
 Use the command .heal near an scp with a medical item and it will heal them with the amount set in the config.
 
-## Config
+## Default Config
 
-```cs
+```yaml
 heal_s_c_ps:
   is_enabled: true
-  # How much health the SCP gets from a Medkit.
-  medkit_health_recieve: 75
-  # How much health the SCP gets from SCP 500.
-  s_c_p500_health_recieve: 100
-  # How much health the SCP gets from Adrenaline.
-  adrenaline_health_recieve: 35
-  # How much health the SCP gets from Painkillers.
-  painkillers_health_recieve: 10
-  # How much health the SCP gets from SCP 207.
-  s_c_p207_health_recieve: 25
   # How far do the SCPs have to be for the health to be applied?
   distance: 5
   # What SCPs are allowed to be healed?
@@ -37,5 +27,30 @@ heal_s_c_ps:
   - Scp096
   - Scp106
   - Scp173
-  - Scp93953
+  - Scp939
+  allowed_heals:
+    Medkit:
+      instant_heal_amount: 65
+      effect_info: []
+      apply_original_effects: false
+    SCP500:
+      instant_heal_amount: 0
+      effect_info: []
+      apply_original_effects: true
+    SCP207:
+      instant_heal_amount: 50
+      effect_info: []
+      apply_original_effects: false
+    Adrenaline:
+      instant_heal_amount: 50
+      effect_info:
+      - effect_type: Invigorated
+        should_add_if_present: true
+        time: 5
+        effect_amount: 1
+      apply_original_effects: false
+    Painkillers:
+      instant_heal_amount: 50
+      effect_info: []
+      apply_original_effects: true
 ```
