@@ -4,6 +4,11 @@ using Exiled.API.Features;
 using UnityEngine;
 using Exiled.API.Extensions;
 using PlayerRoles;
+using InventorySystem;
+using InventorySystem.Items;
+using static HealSCPs.Config;
+using CustomPlayerEffects;
+using InventorySystem.Items.Usables;
 
 namespace HealSCPs
 {
@@ -25,9 +30,12 @@ namespace HealSCPs
                 response = "You can't run this command!";
                 return false;
             }
-            if (!player.CurrentItem.Type.IsMedical())
+            
+            if (player.CurrentItem is null
+                || !InventoryItemLoader.AvailableItems.TryGetValue(player.CurrentItem.Base.ItemTypeId, out ItemBase item)
+                || !Plugin.Instance.Config.AllowedHeals.TryGetValue(player.CurrentItem.Base.ItemTypeId, out HealItemProperties healProperties))
             {
-                response = "You can't heal SCPs with that item!";
+                response = "You are not allowed to heal with that item!";
                 return false;
             }
             Transform cam = player.CameraTransform;
@@ -47,20 +55,35 @@ namespace HealSCPs
                 response = "This SCP is not allowed to be healed!";
                 return false;
             }
+            hitPlayer.Heal(healProperties.InstantHealAmount);
 
-            float amount = player.CurrentItem.Type switch
+            if (healProperties.ApplyOriginalEffects)
             {
-                ItemType.Adrenaline => Plugin.Instance.Config.AdrenalineHealthRecieve,
-                ItemType.Medkit => Plugin.Instance.Config.MedkitHealthRecieve,
-                ItemType.Painkillers => Plugin.Instance.Config.PainkillersHealthRecieve,
-                ItemType.SCP207 => Plugin.Instance.Config.SCP207HealthRecieve,
-                ItemType.SCP500 => Plugin.Instance.Config.SCP500HealthRecieve,
-                _ => 0
-            };
-            hitPlayer.ShowHint($"You have been healed by {player.Nickname} for {amount}HP");
-            hitPlayer.Heal(amount);
+                item = UnityEngine.Object.Instantiate(item.gameObject).GetComponent<ItemBase>();
+
+                if (item is Consumable consumable)
+                {
+                    item.Owner = hitPlayer.ReferenceHub;
+                    consumable.OnEffectsActivated();
+                }
+
+                UnityEngine.Object.Destroy(item.gameObject);
+            }
+
+            PlayerEffectsController controller = hitPlayer.ReferenceHub.playerEffectsController;
+
+            foreach (EffectsInfo effect in healProperties.EffectInfo)
+            {
+                if (hitPlayer.TryGetEffect(effect.EffectType, out StatusEffectBase statusEffect))
+                {
+                    byte newValue = (byte)Mathf.Min(255, statusEffect.Intensity + effect.EffectAmount);
+
+                    controller.ChangeState(statusEffect.GetType().Name, newValue, effect.Time, effect.ShouldAddIfPresent);
+                }
+            }
+            hitPlayer.ShowHint($"You have been healed by {player.Nickname}!");
             player.RemoveHeldItem();
-            response = $"Healed Player {hitPlayer.Nickname}";
+            response = $"You have healed {hitPlayer.Nickname}!";
             return true;
         }
     }
