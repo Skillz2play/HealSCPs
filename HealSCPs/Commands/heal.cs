@@ -57,14 +57,18 @@ namespace HealSCPs
             }
             hitPlayer.Heal(healProperties.InstantHealAmount);
 
+            hitPlayer.ShowHint($"You have been healed by {player.Nickname}!");
+            ushort OldSerial = player.CurrentItem.Base.ItemSerial;
+            player.RemoveHeldItem();
             if (healProperties.ApplyOriginalEffects)
             {
-                item = UnityEngine.Object.Instantiate(item.gameObject).GetComponent<ItemBase>();
+                item = UnityEngine.Object.Instantiate(item.gameObject).GetComponent<ItemBase>() as Consumable;
+                item.ItemSerial = OldSerial;
 
                 if (item is Consumable consumable)
                 {
                     item.Owner = hitPlayer.ReferenceHub;
-                    consumable.OnEffectsActivated();
+                    consumable.ServerOnUsingCompleted();
                 }
 
                 UnityEngine.Object.Destroy(item.gameObject);
@@ -81,7 +85,6 @@ namespace HealSCPs
                     controller.ChangeState(statusEffect.GetType().Name, newValue, effect.Time, effect.ShouldAddIfPresent);
                 }
             }
-            hitPlayer.ShowHint($"You have been healed by {player.Nickname}!");
             player.RemoveHeldItem();
             response = $"You have healed {hitPlayer.Nickname}!";
             return true;
