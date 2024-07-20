@@ -2,6 +2,10 @@
 
 HealSCPs is a simple plugin which lets you heal any SCP with a healing item. (Except 079)
 
+![Version](https://img.shields.io/github/v/release/Skillz2play/HealSCPs?label=Version)
+![Downloads](https://img.shields.io/github/downloads/Skillz2play/HealSCPs/total?style=flat-square)
+
+
 ## Installation
 
 Go to the latest [Release](https://github.com/Skillz2play/HealSCPs/releases) and download the .dll file.
