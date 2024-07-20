@@ -15,7 +15,7 @@ namespace HealSCPs
         public float Distance { get; set; } = 5f;
 
         [Description("What SCPs are allowed to be healed?")]
-        public List<RoleTypeId> AllowedScps { get; private set; } = new List<RoleTypeId>() { RoleTypeId.Scp049, RoleTypeId.Scp0492, RoleTypeId.Scp079, RoleTypeId.Scp096, RoleTypeId.Scp106, RoleTypeId.Scp173, RoleTypeId.Scp939 };
+        public List<RoleTypeId> AllowedScps { get; private set; } = new List<RoleTypeId>() { RoleTypeId.Scp049, RoleTypeId.Scp0492, RoleTypeId.Scp079, RoleTypeId.Scp096, RoleTypeId.Scp106, RoleTypeId.Scp173, RoleTypeId.Scp939, RoleTypeId.Scp3114 };
 
         public Dictionary<ItemType, HealItemProperties> AllowedHeals { get; set; } = new Dictionary<ItemType, HealItemProperties>()
         {
