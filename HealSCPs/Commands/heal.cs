@@ -2,7 +2,6 @@
 using System;
 using Exiled.API.Features;
 using UnityEngine;
-using Exiled.API.Extensions;
 using PlayerRoles;
 using InventorySystem;
 using InventorySystem.Items;
