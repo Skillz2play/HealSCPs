@@ -19,8 +19,8 @@ namespace HealSCPs
 
 		public override string Name => "HealSCPs";
 		public override string Author => "Skillz2play";
-		public override Version Version => new Version(2, 0, 2);
-		public override Version RequiredExiledVersion => new Version(8, 0, 0);
+		public override Version Version => new Version(2, 0, 3);
+		public override Version RequiredExiledVersion => new Version(9, 0, 0);
 
 		private static Plugin singleton;
 	}
