@@ -8,6 +8,7 @@ using InventorySystem.Items;
 using static HealSCPs.Config;
 using CustomPlayerEffects;
 using InventorySystem.Items.Usables;
+using MEC;
 
 namespace HealSCPs
 {
@@ -23,6 +24,13 @@ namespace HealSCPs
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get((CommandSender)sender);
+
+            string text = "n SCP";
+
+            if (Plugin.Instance.Config.HealNonSCPs)
+            {
+                text = " player";
+            }
 
             if (!player.IsHuman)
             {
@@ -40,22 +48,37 @@ namespace HealSCPs
             Transform cam = player.CameraTransform;
             if (!Physics.Raycast(cam.position, cam.forward, out RaycastHit hit, Plugin.Instance.Config.Distance, LayerMask.GetMask("Default", "Player", "Hitbox")))
             {
-                response = "You must be looking at an SCP in order to heal them.";
+                response = $"You must be looking at a{text} in order to heal them.";
                 return false;
             }
             Player hitPlayer = Player.Get(hit.transform.GetComponentInParent<ReferenceHub>());
             if (hitPlayer == null || hitPlayer.Role.Team != Team.SCPs)
             {
-                response = "You must be looking at an SCP in order to heal them.";
+                response = $"You must be looking at a{text} in order to heal them.";
                 return false;
             }
-            if (!Plugin.Instance.Config.AllowedScps.Contains(hitPlayer.Role))            
+            if (!Plugin.Instance.Config.AllowedScps.Contains(hitPlayer.Role) && !Plugin.Instance.Config.HealNonSCPs)            
             {
                 response = "This SCP is not allowed to be healed!";
                 return false;
             }
-            hitPlayer.Heal(healProperties.InstantHealAmount);
 
+            if (Plugin.Instance.Config.AllowedScps.Contains(hitPlayer.Role))
+            {
+                Heal(player, hitPlayer, item, healProperties);
+            }
+            else
+            {
+                Timing.CallDelayed(2, () => Heal(player, hitPlayer, item, healProperties));
+            }
+
+            response = $"You have healed {hitPlayer.Nickname}!";
+            return true;
+        }
+
+        public void Heal(Player player, Player hitPlayer, ItemBase item, HealItemProperties healProperties)
+        {
+            hitPlayer.Heal(healProperties.InstantHealAmount);
             hitPlayer.ShowHint($"You have been healed by {player.Nickname}!");
             ushort OldSerial = player.CurrentItem.Base.ItemSerial;
             player.RemoveHeldItem();
@@ -84,9 +107,6 @@ namespace HealSCPs
                     controller.ChangeState(statusEffect.GetType().Name, newValue, effect.Time, effect.ShouldAddIfPresent);
                 }
             }
-            player.RemoveHeldItem();
-            response = $"You have healed {hitPlayer.Nickname}!";
-            return true;
         }
     }
 }
