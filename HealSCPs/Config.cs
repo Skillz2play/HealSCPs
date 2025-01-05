@@ -17,6 +17,9 @@ namespace HealSCPs
         [Description("What SCPs are allowed to be healed?")]
         public List<RoleTypeId> AllowedScps { get; private set; } = new List<RoleTypeId>() { RoleTypeId.Scp049, RoleTypeId.Scp0492, RoleTypeId.Scp079, RoleTypeId.Scp096, RoleTypeId.Scp106, RoleTypeId.Scp173, RoleTypeId.Scp939, RoleTypeId.Scp3114 };
 
+        [Description("Can non-SCPs get healed?")]
+        public bool HealNonSCPs { get; set; } = false;
+
         public Dictionary<ItemType, HealItemProperties> AllowedHeals { get; set; } = new Dictionary<ItemType, HealItemProperties>()
         {
             [ItemType.Medkit] = new()
