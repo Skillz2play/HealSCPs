@@ -9,6 +9,7 @@ using static HealSCPs.Config;
 using CustomPlayerEffects;
 using InventorySystem.Items.Usables;
 using MEC;
+using HealSCPs.API;
 
 namespace HealSCPs
 {
@@ -45,14 +46,19 @@ namespace HealSCPs
                 response = "You are not allowed to heal with that item!";
                 return false;
             }
-            Transform cam = player.CameraTransform;
-            if (!Physics.Raycast(cam.position, cam.forward, out RaycastHit hit, Plugin.Instance.Config.Distance, LayerMask.GetMask("Default", "Player", "Hitbox")))
+            Player hitPlayer;
+            using (new HitboxDisabler(player))
             {
-                response = $"You must be looking at a{text} in order to heal them.";
-                return false;
+                Transform cam = player.CameraTransform;
+                if (!Physics.Raycast(cam.position, cam.forward, out RaycastHit hit, Plugin.Instance.Config.Distance, LayerMask.GetMask("Default", "Player", "Hitbox")))
+                {
+                    response = $"You must be looking at a{text} in order to heal them.";
+                    return false;
+                }
+
+                hitPlayer = Player.Get(hit.transform.root.gameObject);
             }
-            Player hitPlayer = Player.Get(hit.transform.GetComponentInParent<ReferenceHub>());
-            if (hitPlayer == null || hitPlayer.Role.Team != Team.SCPs)
+            if (hitPlayer == null || (!Plugin.Instance.Config.HealNonSCPs && hitPlayer.Role.Team != Team.SCPs))
             {
                 response = $"You must be looking at a{text} in order to heal them.";
                 return false;
