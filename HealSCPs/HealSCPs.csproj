@@ -64,6 +64,9 @@
     <Reference Include="Assembly-CSharp-Publicized">
       <HintPath>$(SL_REFERENCES)\Assembly-CSharp-Publicized.dll</HintPath>
     </Reference>
+    <Reference Include="Pooling">
+      <HintPath>$(SL_REFERENCES)\Pooling.dll</HintPath>
+    </Reference>
     <Reference Include="CommandSystem.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ExMod.Exiled.9.2.1\lib\net48\CommandSystem.Core.dll</HintPath>
     </Reference>
@@ -121,6 +124,7 @@
   <ItemGroup>
     <Compile Include="Commands\heal.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="HitboxDisabler.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
