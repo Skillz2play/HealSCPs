@@ -32,6 +32,9 @@ heal_s_c_ps:
   - Scp106
   - Scp173
   - Scp939
+  - Scp3114
+  # Can non-SCPs get healed?
+  heal_non_s_c_ps: false
   allowed_heals:
     Medkit:
       instant_heal_amount: 65
